@@ -24,19 +24,18 @@
 
 package com.deezer.caupain
 
+import com.deezer.caupain.internal.DEFAULT_FILE_SYSTEM
+import com.deezer.caupain.internal.IO_DISPATCHER
 import com.deezer.caupain.model.Ignores
 import com.deezer.caupain.model.versionCatalog.VersionCatalog
 import com.deezer.caupain.serialization.DefaultToml
 import com.deezer.caupain.serialization.decodeFromPath
 import com.deezer.caupain.toml.IgnoreParser
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
 import net.peanuuutz.tomlkt.Toml
 import okio.FileSystem
 import okio.Path
-import okio.SYSTEM
 
 internal interface VersionCatalogParser {
     suspend fun parseDependencyInfo(versionCatalogPath: Path): VersionCatalogParseResult
@@ -44,8 +43,8 @@ internal interface VersionCatalogParser {
 
 internal class DefaultVersionCatalogParser(
     private val toml: Toml = DefaultToml,
-    private val fileSystem: FileSystem = FileSystem.SYSTEM,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val fileSystem: FileSystem = DEFAULT_FILE_SYSTEM,
+    private val ioDispatcher: CoroutineDispatcher = IO_DISPATCHER
 ) : VersionCatalogParser {
 
     private val ignoreParser = IgnoreParser(fileSystem, ioDispatcher)

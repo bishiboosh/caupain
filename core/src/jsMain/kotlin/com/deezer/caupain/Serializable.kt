@@ -22,34 +22,9 @@
  * SOFTWARE.
  */
 
-package com.deezer.caupain.serialization
+package com.deezer.caupain
 
-import com.deezer.caupain.internal.DEFAULT_FILE_SYSTEM
-import net.peanuuutz.tomlkt.Toml
-import net.peanuuutz.tomlkt.TomlReader
-import net.peanuuutz.tomlkt.decodeFromReader
-import okio.BufferedSource
-import okio.EOFException
-import okio.FileSystem
-import okio.Path
-
-internal class TomlOkioReader(private val source: BufferedSource) : TomlReader {
-
-    override fun read(): Int = try {
-        source.readUtf8CodePoint()
-    } catch (ignored: EOFException) {
-        -1
-    }
-}
-
-internal val DefaultToml: Toml by lazy {
-    Toml {
-        ignoreUnknownKeys = true
-        explicitNulls = false
-    }
-}
-
-internal inline fun <reified T> Toml.decodeFromPath(
-    fileSystem: FileSystem = DEFAULT_FILE_SYSTEM,
-    path: Path,
-): T = fileSystem.read(path) { decodeFromReader(TomlOkioReader(this)) }
+/**
+ * Placeholder interface for the Java Serializable interface.
+ */
+public actual interface Serializable

@@ -44,8 +44,15 @@ kotlin {
         linuxX64()
         linuxArm64()
         jvm()
+        js {
+            nodejs()
+        }
+    }
 
-        getByName("commonMain") {
+    applyDefaultHierarchyTemplate()
+
+    sourceSets {
+        commonMain {
             kotlin {
                 srcDir(layout.buildDirectory.dir("generated-src/antlr"))
             }
@@ -67,44 +74,59 @@ kotlin {
                 implementation(libs.kotlinx.serialization.json.okio)
             }
         }
-        getByName("commonTest") {
+        commonTest {
             dependencies {
                 implementation(libs.kotlin.test)
                 implementation(libs.okio.fake.filesystem)
                 implementation(libs.ktor.client.mock)
                 implementation(libs.kotlinx.coroutines.test)
-                compileOnly(libs.jetbrains.annotations)
                 implementation(libs.bundles.ktor.test.server)
                 implementation(libs.ktor.client.cio)
             }
         }
-        getByName("jvmMain") {
+        val nonJsMain by creating {
+            dependsOn(commonMain.get())
+        }
+        val nonJsTest by creating {
+            dependsOn(commonTest.get())
+        }
+        jvmMain {
+            dependsOn(nonJsMain)
             dependencies {
                 implementation(libs.slf4j.nop)
                 implementation(libs.ktor.client.okhttp)
             }
         }
-        getByName("jvmTest") {
+        jvmTest {
+            dependsOn(nonJsTest)
             dependencies {
                 implementation(libs.kotlin.test.junit)
                 implementation(libs.junit)
             }
         }
-        create("macosMain") {
+        jsMain {
+            dependencies {
+                implementation(libs.okio.node.filesystem)
+                implementation(libs.ktor.client.js)
+            }
+        }
+        macosMain {
             dependencies {
                 implementation(libs.ktor.client.darwin)
             }
         }
-        create("mingwMain") {
+        mingwMain {
             dependencies {
                 implementation(libs.ktor.client.winhttp)
             }
         }
-        create("linuxMain") {
+        linuxMain {
             dependencies {
                 implementation(libs.ktor.client.curl)
             }
         }
+        nativeMain.get().dependsOn(nonJsMain)
+        nativeTest.get().dependsOn(nonJsTest)
     }
 }
 

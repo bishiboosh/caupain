@@ -32,8 +32,6 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
-import org.gradle.kotlin.dsl.property
-import org.intellij.lang.annotations.Language
 import java.io.File
 
 abstract class CreateChocolateyFilesTask : DefaultTask() {
@@ -121,7 +119,6 @@ abstract class CreateChocolateyFilesTask : DefaultTask() {
     }
 
     companion object {
-        @Language("XML")
         private fun createSpec(
             id: String,
             title: String,

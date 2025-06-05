@@ -30,14 +30,13 @@ import com.deezer.caupain.formatting.model.VersionReferenceInfo
 import com.deezer.caupain.model.GradleUpdateInfo
 import com.deezer.caupain.model.SelfUpdateInfo
 import com.deezer.caupain.model.UpdateInfo
-import com.deezer.caupain.toStaticVersion
 import com.deezer.caupain.toSimpleVersion
+import com.deezer.caupain.toStaticVersion
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import okio.Path.Companion.toPath
 import okio.fakefilesystem.FakeFileSystem
-import org.intellij.lang.annotations.Language
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -130,7 +129,6 @@ class HtmlFormatterTest {
     }
 }
 
-@Language("HTML")
 private const val EMPTY_RESULT = """
 <html>
   <head>
@@ -168,7 +166,6 @@ private const val EMPTY_RESULT = """
 </html>    
 """
 
-@Language("HTML")
 private const val FULL_RESULT = """
 <html>
   <head>

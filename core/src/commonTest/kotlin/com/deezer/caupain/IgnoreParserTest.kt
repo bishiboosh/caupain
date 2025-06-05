@@ -31,7 +31,6 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import okio.Path.Companion.toPath
 import okio.fakefilesystem.FakeFileSystem
-import org.intellij.lang.annotations.Language
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -72,7 +71,6 @@ class IgnoreParserTest {
     }
 }
 
-@Language("toml")
 private val FILE = """
 [versions]
 junit = "4.13.2"

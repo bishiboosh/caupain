@@ -35,7 +35,6 @@ import kotlinx.coroutines.test.runTest
 import okio.FileSystem
 import okio.Path.Companion.toPath
 import okio.fakefilesystem.FakeFileSystem
-import org.intellij.lang.annotations.Language
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -107,7 +106,6 @@ class VersionCatalogParserTest {
     }
 }
 
-@Language("TOML")
 private const val TEST_VERSION_CATALOG = """
 [versions]
 groovy = "3.0.5-alpha-1"

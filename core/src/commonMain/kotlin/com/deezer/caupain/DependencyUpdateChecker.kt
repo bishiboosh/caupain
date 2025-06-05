@@ -28,7 +28,9 @@ import com.deezer.caupain.DependencyUpdateChecker.Companion.DONE
 import com.deezer.caupain.DependencyUpdateChecker.Companion.FINDING_UPDATES_TASK
 import com.deezer.caupain.DependencyUpdateChecker.Companion.GATHERING_INFO_TASK
 import com.deezer.caupain.DependencyUpdateChecker.Companion.PARSING_TASK
+import com.deezer.caupain.internal.DEFAULT_FILE_SYSTEM
 import com.deezer.caupain.internal.FileStorage
+import com.deezer.caupain.internal.IO_DISPATCHER
 import com.deezer.caupain.internal.extension
 import com.deezer.caupain.model.Configuration
 import com.deezer.caupain.model.DEFAULT_POLICIES
@@ -66,8 +68,6 @@ import io.ktor.serialization.kotlinx.json.json
 import io.ktor.serialization.kotlinx.xml.xml
 import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -78,7 +78,6 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import okio.FileSystem
 import okio.Path
-import okio.SYSTEM
 
 /**
  * Given a version catalog, this interrogates Maven repositories (specified via [Configuration]), and
@@ -204,8 +203,8 @@ public fun DependencyUpdateChecker(
     currentGradleVersion: String?,
     logger: Logger = Logger.EMPTY,
     selfUpdateResolver: SelfUpdateResolver? = null,
-    fileSystem: FileSystem = FileSystem.SYSTEM,
-    ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    fileSystem: FileSystem = DEFAULT_FILE_SYSTEM,
+    ioDispatcher: CoroutineDispatcher = IO_DISPATCHER,
     policies: List<Policy>? = null,
 ): DependencyUpdateChecker = DefaultDependencyUpdateChecker(
     configuration = configuration,
@@ -241,7 +240,7 @@ public fun DependencyUpdateChecker(
     versionCatalogParser = DefaultVersionCatalogParser(
         toml = DefaultToml,
         fileSystem = fileSystem,
-        ioDispatcher = Dispatchers.IO
+        ioDispatcher = IO_DISPATCHER
     ),
     logger = logger,
     selfUpdateResolver = selfUpdateResolver,

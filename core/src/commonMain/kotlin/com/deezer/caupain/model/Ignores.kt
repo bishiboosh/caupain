@@ -30,10 +30,16 @@ internal data class Ignores(
     val refs: Set<String> = emptySet(),
     val libraryKeys: Set<String> = emptySet(),
     val pluginKeys: Set<String> = emptySet()
-)
+) {
+    fun isEmpty(): Boolean {
+        return refs.isEmpty() && libraryKeys.isEmpty() && pluginKeys.isEmpty()
+    }
+}
 
 internal fun Ignores.isExcluded(key: String, dependency: Dependency): Boolean {
     return when {
+        isEmpty() -> false
+
         dependency.version is Version.Reference ->
             (dependency.version as? Version.Reference)?.ref in refs
 

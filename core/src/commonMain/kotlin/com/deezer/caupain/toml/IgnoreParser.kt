@@ -27,10 +27,9 @@ package com.deezer.caupain.toml
 import com.deezer.caupain.antlr.TomlLexer
 import com.deezer.caupain.antlr.TomlParser
 import com.deezer.caupain.antlr.TomlParserBaseVisitor
+import com.deezer.caupain.internal.IO_DISPATCHER
 import com.deezer.caupain.model.Ignores
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
 import okio.FileSystem
 import okio.Path
@@ -39,7 +38,7 @@ import org.antlr.v4.kotlinruntime.CommonTokenStream
 
 internal class IgnoreParser(
     private val fileSystem: FileSystem,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val ioDispatcher: CoroutineDispatcher = IO_DISPATCHER
 ) {
     suspend fun computeIgnores(versionCatalogPath: Path): Ignores {
         val charStream = withContext(ioDispatcher) {
